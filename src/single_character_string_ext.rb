@@ -14,6 +14,10 @@ String.class_eval do
   def to_char
     self[0]
   end
+  
+  def operator?
+    [Tag::ADD, Tag::MINUS, Tag::MULTIPLY, Tag::DIVIDE].include?(self)
+  end
 end
 
 NilClass.class_eval do

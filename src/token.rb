@@ -13,10 +13,22 @@ class Token
   def comment?
     tag == Tag::COMMENT
   end
+  
+  def recognized_token?
+    false
+  end
+  
+  alias_method :operator?, :recognized_token?
+  alias_method :word?, :recognized_token?
+  alias_method :number?, :recognized_token?
 end
 
 class NumberToken < Token
   alias_method :value, :content
+  
+  def number?
+    true
+  end
 end
 
 class WordToken < Token
@@ -27,7 +39,14 @@ class WordToken < Token
     @tag = tag
     @content = lexeme
   end
+  
+  def word?
+    true
+  end
 end
 
 class OperatorToken < Token
+  def operator?
+    true
+  end
 end

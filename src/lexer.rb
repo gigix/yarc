@@ -5,10 +5,10 @@ class Tag
   FALSE = :false
   
   # math operators
-  ADD = :add
-  MINUS = :minus
-  MULTIPLY = :multiply
-  DIVIDE = :divide
+  ADD = '+'
+  MINUS = '-'
+  MULTIPLY = '*'
+  DIVIDE = '/'
 
   # others
   FINISH = :finish
@@ -44,6 +44,7 @@ class Lexer
     
     return Token.new(Tag::FINISH) if @peek.nil?
     return recognize_comment if @peek == '/'
+    return recognize_operator if @peek.operator?
     return recognize_number if @peek.digit?
     return recognize_word if @peek.letter?
     
@@ -53,6 +54,12 @@ class Lexer
   end
   
   private
+  def recognize_operator
+    token = OperatorToken.new(@peek)
+    @peek = ' '
+    return token
+  end
+  
   def recognize_comment
     lookahead = next_char
     
@@ -70,6 +77,7 @@ class Lexer
       return Token.new(Tag::COMMENT)
     end
     
+    @peek = lookahead
     return OperatorToken.new(Tag::DIVIDE)
   end
   

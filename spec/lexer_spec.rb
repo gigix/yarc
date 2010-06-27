@@ -86,10 +86,26 @@ describe Lexer do
       
       tokens = lexer.scan_all
       
-      # tokens.should have(3).word_tokens
+      tokens.should have(3).tokens
       tokens[0].should be_comment
       tokens[1].lexeme.should == "thisIs2ndIdentifier"
       tokens[2].should be_finish
     end    
+    
+    [Tag::ADD, Tag::MINUS, Tag::MULTIPLY, Tag::DIVIDE].each do |op|
+      it "recognizes math operator #{op}" do
+        lexer = Lexer.new("1#{op}2")
+        tokens = lexer.scan_all
+      
+        tokens.should have(4).tokens
+        tokens[0].should be_number
+        tokens[0].value.should == 1
+        tokens[1].should be_operator
+        tokens[1].tag.should == op
+        tokens[2].should be_number
+        tokens[2].value.should == 2
+        tokens[3].should be_finish
+      end
+    end
   end
 end
