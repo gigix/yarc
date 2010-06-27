@@ -6,7 +6,7 @@ describe Lexer do
       lexer = Lexer.new(" \t\n")
       token = lexer.scan
       token.should_not be_nil
-      token.tag.should == Tag::FINISH
+      token.should be_finish
     end
     
     it "returns general token when input is an undefined character" do
@@ -25,14 +25,14 @@ describe Lexer do
     it "recognizes number token" do
       lexer = Lexer.new("12345")
       token = lexer.scan
-      token.class.should == NumberToken
+      token.should be_number
       token.value.should == 12345
     end
     
     it "recognizes float point number" do
       lexer = Lexer.new("3.14")
       token = lexer.scan
-      token.class.should == NumberToken
+      token.should be_number
       token.value.should == 3.14
     end
     
@@ -43,16 +43,16 @@ describe Lexer do
       lexer = Lexer.new("#{keyword}\n\t#{id_1} #{id_2}")
       
       token_1 = lexer.scan
-      token_1.class.should == WordToken
+      token_1.should be_word
       token_1.tag.should == Tag::IF
       
       token_2 = lexer.scan
-      token_2.class.should == WordToken
+      token_2.should be_word
       token_2.tag.should == Tag::ID
       token_2.lexeme.should == id_1
       
       token_3 = lexer.scan
-      token_3.class.should == WordToken
+      token_3.should be_word
       token_3.tag.should == Tag::ID
       token_3.lexeme.should == id_2
     end

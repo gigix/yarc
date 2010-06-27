@@ -18,9 +18,16 @@ class Token
     false
   end
   
+  def ==(another)
+    self.class == another.class and
+    self.content == another.content
+  end
+  
   alias_method :operator?, :recognized_token?
   alias_method :word?, :recognized_token?
   alias_method :number?, :recognized_token?
+
+  FINISH = Token.new(Tag::FINISH)  
 end
 
 class NumberToken < Token

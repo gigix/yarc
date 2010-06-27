@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'boot'
+
+tokens = Lexer.new(ARGV.first).scan_all
+expr = Parser.new(tokens).expr
+# puts expr
+puts expr.execute
